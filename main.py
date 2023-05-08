@@ -1,16 +1,14 @@
-# This is a sample Python script.
+import serial  # pip install pyserial
+import time
+device = 'COM6'
+Serial = serial.Serial(device, 115200, timeout=.1)
+time.sleep(2)
+def get_acc():
+    while not Serial.in_waiting:
+        pass
+    #return (Serial.read(2), Serial.read(2))
+    return (int.from_bytes(Serial.read(2), "little", signed=True), int.from_bytes(Serial.read(2), "little", signed=True))
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+while True:
+    #print(type(get_acc()[0]))
+    print(get_acc())
